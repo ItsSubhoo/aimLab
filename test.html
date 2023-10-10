@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aim Trainer</title>
+    <style>
+        /* CSS code here */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #27005D;
+            /* display: flex; */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* height: 80vh; */
+            transition: all 3s;
+        }
+.score{
+
+    display: block;
+    display: hidden;
+    color: #27005D;
+}
+        .score-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #9400FF;
+            color: white;
+            /* text-shadow: 0 0 1.5rem white, 0 0 3.5rem white, 0 0 5rem white, 0 0 7rem #ff00de, 0 0 8rem #ff00de, 0 0 10rem #ff00de, 0 0 12rem #ff00de, 0 0 15rem #ff00de; */
+            text-align: center;
+            padding: 10px;
+            z-index: 300;
+            font-size: 18px;
+        }
+        hr{
+            position: fixed;
+            width: 100%;
+            background-color: #E4F1FF;
+            top: 6vh;
+            box-shadow: 0 0 10px 5px #48abe0;
+        }
+        #score-mobile{
+
+            display: hidden;
+        }
+        .game-container {
+            /* position: fixed;
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-bottom: 10%;
+            width: 100%;
+            max-width: 500px;
+            height: 90%;
+            padding-bottom: 10%; */
+
+            position: fixed;
+            height: 78%;
+            width: 90vw;
+            top:10%;
+            bottom: 10%;
+        }
+
+        .target {
+            width: 10%;
+            margin-top: 10%;
+            margin-bottom: 10%;
+            padding-bottom: 10%;
+            background-color: 	#AED2FF;
+
+            /* border: 2px solid #E4F1FF ; */
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+            box-shadow: 0 0 50px 15px #48abe0;
+            /* transition: 20ms; */
+        }
+    </style>
+</head>
+<body>
+    <div class="score-top">Score: <span id="score" id="score-mobile">0</span></div>
+    
+    <div class="game-container">
+        <div class="score"><span id="score-mobile"></span></div>
+        <hr>
+        <div class="target"></div>
+    </div>
+    <script>
+        // JavaScript code here
+        const target = document.querySelector('.target');
+        const scoreElement = document.getElementById('score');
+        const scoreElementMobile = document.getElementById('score-mobile');
+        const gameContainer = document.querySelector('.game-container');
+        const maxPos = 90; // Adjust the maximum position as needed
+        let score = 0;
+
+        function getRandomPosition() {
+            const x = Math.random() * maxPos;
+            const y = Math.random() * maxPos;
+            return { x, y };
+        }
+
+        function moveTarget() {
+            const { x, y } = getRandomPosition();
+            target.style.left = `${x}%`;
+            target.style.top = `${y}%`;
+            
+        }
+
+        target.addEventListener('click', () => {
+            score++;
+            scoreElement.textContent = score;
+            scoreElementMobile.textContent = score; // Update the mobile score as well
+            moveTarget();
+        });
+        target.addEventListener('click', () => {
+    // Generate a random color in hexadecimal format
+    const randomColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+    
+    // Set the background color of the target to the random color
+    target.style.backgroundColor = randomColor;
+    
+    score++;
+    scoreElement.textContent = score;
+    scoreElementMobile.textContent = score;
+    moveTarget();
+});
+
+        // Initial target position
+        moveTarget();
+
+        // Make the game container responsive to different screen sizes
+        window.addEventListener('resize', () => {
+            const containerSize = Math.min(window.innerWidth, window.innerHeight) * 0.9;
+            gameContainer.style.width = `${containerSize}px`;
+            gameContainer.style.height = `${containerSize}px`;
+            moveTarget();
+        });
+    </script>
+</body>
+</html>
